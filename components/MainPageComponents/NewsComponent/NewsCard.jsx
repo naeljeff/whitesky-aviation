@@ -5,11 +5,10 @@ import {
   CardBody,
   CardFooter,
   Typography,
-  Avatar
+  Avatar,
 } from "@material-tailwind/react";
-import Button from "@mui/material/Button";
 
-const NewsCard = ({ article, index }) => {
+const NewsCard = React.memo(({ article, index }) => {
   // Get website base url
   const websiteUrl = article.url;
   const website = websiteUrl.split("https://").pop().split("/")[0];
@@ -30,10 +29,7 @@ const NewsCard = ({ article, index }) => {
   const articleDate = article.publishedAt;
   const formattedDate = formatDateString(articleDate);
   return (
-    <Card
-      key={index}
-      className="mt-5 w-full shadow-xl lg:w-96"
-    >
+    <Card key={index} className="mt-5 w-full shadow-xl lg:w-96">
       <CardHeader className="relative h-56">
         <img src={article.urlToImage} alt={article.title} />
       </CardHeader>
@@ -81,10 +77,12 @@ const NewsCard = ({ article, index }) => {
         </div>
       </CardBody>
       <CardFooter className="m-5">
-        <button className="h-10 w-32 text-white bg-black rounded-lg hover:drop-shadow-xl hover:bg-slate-900">Read More</button>
+        <button className="h-10 w-32 text-white bg-black rounded-lg hover:drop-shadow-xl hover:bg-slate-900">
+          Read More
+        </button>
       </CardFooter>
     </Card>
   );
-};
+});
 
 export default NewsCard;

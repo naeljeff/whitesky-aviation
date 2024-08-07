@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
+import InfiniteScroll from "react-infinite-scroll-component";
 import {
   fetchNews,
   getNews,
@@ -14,15 +13,26 @@ import {
 import NewsCard from "./NewsCard";
 
 const News = () => {
+  const [page, setPage] = useState(1);
+
   const dispatch = useDispatch();
   const articles = useSelector(getNews);
   const articlesLength = useSelector(getNewsLength);
   const status = useSelector(getStatus);
   const error = useSelector(selectNewsError);
+  const pageSize = 10;
 
   useEffect(() => {
     dispatch(fetchNews("bitcoin"));
   }, [dispatch]);
+
+  const fetchMoreData = () => {
+    if (page * pageSize < articlesLength) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const memoArticles = articles.slice(0, page * pageSize);
 
   return (
     <div>
@@ -38,13 +48,26 @@ const News = () => {
       )}
       {status === "succeeded" && (
         <div className="w-full min-h-[80dvh]">
-          <ScrollArea className="h-[75dvh] px-3">
-            <ul className="grid grid-cols-1 gap-[25px] lg:grid-cols-3">
-              {articles.map((article, index) => {
-                return <NewsCard article={article} key={index} />;
-              })}
-            </ul>
-          </ScrollArea>
+          <div id="scrollableDiv" className="h-[75dvh] overflow-auto">
+            <InfiniteScroll
+              dataLength={memoArticles.length}
+              next={fetchMoreData}
+              hasMore={page * pageSize < articlesLength}
+              loader={<p>Loading more articles...</p>}
+              scrollableTarget="scrollableDiv"
+              endMessage={
+                <p className="text-center">
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+            >
+              <ul className="grid grid-cols-1 gap-[25px] px-3 lg:grid-cols-3">
+                {memoArticles.map((article, index) => (
+                  <NewsCard article={article} key={index} />
+                ))}
+              </ul>
+            </InfiniteScroll>
+          </div>
         </div>
       )}
     </div>

@@ -75,8 +75,8 @@ html::-webkit-scrollbar {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 html {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .blue-text-gradient {
@@ -94,4 +94,13 @@ html {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+#scrollableDiv::-webkit-scrollbar {
+  width: 8px;
+}
+
+#scrollableDiv::-webkit-scrollbar-thumb {
+  background-color: #26f5ff;
+  border-radius: 20px;
 }
