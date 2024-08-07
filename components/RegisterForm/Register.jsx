@@ -6,7 +6,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { TfiWrite } from "react-icons/tfi";
 import { Button } from "@material-tailwind/react";
 
-const Register = ({ onComponentSwap }) => {
+const Register = ({ onComponentSwap, onSuccessRegis }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -17,8 +17,16 @@ const Register = ({ onComponentSwap }) => {
     const input = e.target.value.replace(/\D/g, "");
     let withoutPrefix = input.startsWith("62") ? input.slice(2) : input;
     if (withoutPrefix.startsWith("0")) withoutPrefix = withoutPrefix.slice(1);
-    
+
     setPhoneNumber(`+62 - ${withoutPrefix}`);
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    if (true) {
+      onSuccessRegis();
+    }
   };
   return (
     <div className="w-full h-full flex flex-col justify-center items-center space-y-2">
@@ -30,7 +38,7 @@ const Register = ({ onComponentSwap }) => {
       </div>
 
       {/* Input Login */}
-      <div className="w-4/5 space-y-3 lg:w-2/3">
+      <form onSubmit={handleRegister} className="w-4/5 space-y-3 lg:w-2/3">
         {/* Name */}
         <Input
           type="text"
@@ -40,6 +48,7 @@ const Register = ({ onComponentSwap }) => {
           color="red"
           className="bg-white"
           value={name}
+          required
           onChange={(e) => setName(e.target.value)}
         />
 
@@ -52,6 +61,7 @@ const Register = ({ onComponentSwap }) => {
           color="red"
           className="bg-white"
           value={email}
+          required
           onChange={(e) => setEmail(e.target.value)}
         />
 
@@ -66,6 +76,7 @@ const Register = ({ onComponentSwap }) => {
             pattern="*[0-9]"
             className="bg-white"
             value={phoneNumber}
+            required
             onChange={handlePhoneNumberInput}
           />
         </div>
@@ -80,6 +91,7 @@ const Register = ({ onComponentSwap }) => {
             color="red"
             className="bg-white"
             value={password}
+            required
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
@@ -91,6 +103,7 @@ const Register = ({ onComponentSwap }) => {
         </div>
 
         <Button
+          type="submit"
           size="md"
           variant="gradient"
           color="red"
@@ -101,7 +114,7 @@ const Register = ({ onComponentSwap }) => {
             <TfiWrite size={22} />
           </span>
         </Button>
-      </div>
+      </form>
 
       <p className="text-black pt-3">
         Have an account?{" "}

@@ -13,6 +13,10 @@ const Home = () => {
     setIsLogin(!isLogin);
   };
 
+  const handleSuccessRegister = () => {
+    setIsLogin(true); 
+  };
+
   return (
     <>
       <PageTransition />
@@ -48,7 +52,7 @@ const Home = () => {
             {isLogin ? (
               <Login onComponentSwap={handleComponentSwap} />
             ) : (
-              <Register onComponentSwap={handleComponentSwap} />
+              <Register onComponentSwap={handleComponentSwap} onSuccessRegis={handleSuccessRegister} />
             )}
           </div>
         </div>

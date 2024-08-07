@@ -5,6 +5,7 @@ import { Input } from "@material-tailwind/react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { Button } from "@material-tailwind/react";
+import Link from "next/link";
 
 const Login = ({ onComponentSwap }) => {
   const [email, setEmail] = useState("");
@@ -31,6 +32,7 @@ const Login = ({ onComponentSwap }) => {
           color="blue"
           className="bg-white"
           value={email}
+          required
           onChange={(e) => setEmail(e.target.value)}
         />
 
@@ -44,6 +46,7 @@ const Login = ({ onComponentSwap }) => {
             color="blue"
             className="bg-white pr-12"
             value={password}
+            required
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
@@ -54,17 +57,19 @@ const Login = ({ onComponentSwap }) => {
           </button>
         </div>
 
-        <Button
-          size="lg"
-          variant="gradient"
-          color="light-blue"
-          className="w-full relative flex items-center justify-center gap-3 overflow-hidden pr-[72px]"
-        >
-          Login
-          <span className="absolute right-0 grid h-full w-12 place-items-center bg-light-blue-600 transition-colors group-hover:bg-light-blue-700">
-            <MdLogin size={24} />
-          </span>
-        </Button>
+        <Link href={'/main'} className="p-3 m-3">
+          <Button
+            size="lg"
+            variant="gradient"
+            color="light-blue"
+            className="w-full relative flex items-center justify-center gap-3 overflow-hidden pr-[72px]"
+          >
+            Login
+            <span className="absolute right-0 grid h-full w-12 place-items-center bg-light-blue-600 transition-colors group-hover:bg-light-blue-700">
+              <MdLogin size={24} />
+            </span>
+          </Button>
+        </Link>
       </div>
 
       <p className="text-black pt-3">
