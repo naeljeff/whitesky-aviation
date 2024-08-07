@@ -4,7 +4,7 @@ import MainLayout from '@/components/MainPageComponents/Main'
 
 const Main = () => {
   return (
-    <div>
+    <div className=''>
       <MainLayout />
     </div>
   )
