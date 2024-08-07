@@ -21,7 +21,7 @@ const Register = ({ onComponentSwap }) => {
     setPhoneNumber(`+62 - ${withoutPrefix}`);
   };
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center space-y-3 md:justify-center">
+    <div className="w-full h-full flex flex-col justify-center items-center space-y-2">
       <div className="flex flex-col justify-center items-center space-y-4 mb-3">
         <h2 className="text-black text-3xl font-bold">Welcome!</h2>
         <p className="text-black/70 text-md tracking-tighter text-center">
@@ -30,7 +30,7 @@ const Register = ({ onComponentSwap }) => {
       </div>
 
       {/* Input Login */}
-      <div className="w-4/5 space-y-4 md:w-1/2">
+      <div className="w-4/5 space-y-3 lg:w-2/3">
         {/* Name */}
         <Input
           type="text"

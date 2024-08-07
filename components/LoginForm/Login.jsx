@@ -12,7 +12,7 @@ const Login = ({ onComponentSwap }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center space-y-3 lg:justify-center">
+    <div className="w-full h-full flex flex-col justify-center items-center space-y-3">
       <div className="flex flex-col justify-center items-center space-y-4 mb-3">
         <h2 className="text-black text-3xl font-bold">Hello There!</h2>
         <p className="text-black/70 text-lg tracking-tighter text-center">
@@ -21,7 +21,7 @@ const Login = ({ onComponentSwap }) => {
       </div>
 
       {/* Input Login */}
-      <div className="w-4/5 space-y-4 lg:w-1/2">
+      <div className="w-4/5 space-y-3 lg:w-2/3">
         {/* Email */}
         <Input
           type="email"
