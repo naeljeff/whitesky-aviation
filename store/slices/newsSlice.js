@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { fetchNewsData } from "@/services/news";
+import { newsList } from "@/utils/newsCategory";
 
 const initialState = {
   articles: [],
   status: "idle",
   error: null,
+  selectedCategory: newsList[0].value,
 };
 
 export const fetchNews = createAsyncThunk(
@@ -20,7 +22,11 @@ export const fetchNews = createAsyncThunk(
 const newsSlice = createSlice({
   name: "news",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedCategory(state, action) {
+      state.selectedCategory = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchNews.fulfilled, (state, action) => {
       state.status = "succeeded";
@@ -40,8 +46,10 @@ const newsSlice = createSlice({
   },
 });
 
+export const { setSelectedCategory } = newsSlice.actions;
 export const getNews = (state) => state.news.articles;
 export const getNewsLength = (state) => state.news.articles.length;
 export const getStatus = (state) => state.news.status;
 export const selectNewsError = (state) => state.news.error;
+export const getSelectedCategory = (state) => state.news.selectedCategory
 export default newsSlice.reducer;

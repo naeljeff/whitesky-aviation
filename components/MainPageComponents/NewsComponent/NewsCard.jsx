@@ -6,10 +6,14 @@ import {
   CardFooter,
   Typography,
   Avatar,
-  Button,
 } from "@material-tailwind/react";
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import { getSelectedCategory } from "@/store/slices/newsSlice";
 
 const NewsCard = React.memo(({ article, index }) => {
+  const selectedCategory = useSelector(getSelectedCategory);
+
   // Get website base url
   const websiteUrl = article.url;
   const website = websiteUrl.split("https://").pop().split("/")[0];
@@ -38,9 +42,9 @@ const NewsCard = React.memo(({ article, index }) => {
         <CardBody className="flex-1 px-3">
           <div className="w-full h-full flex flex-col justify-between items-start">
             {/* Source */}
-            <div className="w-full h-6 flex flex-row space-x-3">
+            <div className="w-full h-5 flex flex-row space-x-3">
               <img
-                src={`https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE%2CSIZE%2CURL&url=http://${website}&size=16`}
+                src={`https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE%2CSIZE%2CURL&url=http://${website}&size=20`}
                 alt={article.source.id}
                 className="rounded-full"
               />
@@ -80,10 +84,16 @@ const NewsCard = React.memo(({ article, index }) => {
             </div>
           </div>
         </CardBody>
-        <CardFooter className="mx-5 my-3">
-          <button className="h-10 w-32 text-white bg-black rounded-lg hover:drop-shadow-xl hover:bg-slate-900">
+        <CardFooter className="mx-2 my-3">
+          <Link
+            href={{
+              pathname: `/main/detail/${encodeURIComponent(article.url)}`,
+              query: { category: selectedCategory },
+            }}
+            className="px-4 py-2.5 text-white bg-black rounded-lg hover:drop-shadow-xl hover:bg-slate-900"
+          >
             Read More
-          </button>
+          </Link>
         </CardFooter>
       </div>
     </Card>

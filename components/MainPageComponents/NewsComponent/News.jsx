@@ -23,7 +23,7 @@ const News = ({ articles, fetchMoreData, hasMore }) => {
         >
           <ul className="my-3 grid grid-cols-1 gap-[25px] lg:grid-cols-3">
             {articles.map((article, index) => (
-              <NewsCard article={article} key={index} />
+              <NewsCard article={article} index={index}/>
             ))}
           </ul>
         </InfiniteScroll>

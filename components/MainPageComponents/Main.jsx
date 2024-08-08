@@ -13,12 +13,12 @@ import {
   getNewsLength,
   getStatus,
   selectNewsError,
+  setSelectedCategory,
+  getSelectedCategory,
 } from "@/store/slices/newsSlice";
-import { newsList } from "@/utils/newsCategory";
 
 const MainLayout = () => {
   const [activeCategory, setActiveCategory] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState(newsList[0].value);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 10;
@@ -28,7 +28,9 @@ const MainLayout = () => {
   const articlesLength = useSelector(getNewsLength);
   const status = useSelector(getStatus);
   const error = useSelector(selectNewsError);
+  const selectedCategory = useSelector(getSelectedCategory);
 
+  // Debug: Log selectedCategory whenever it changes
   useEffect(() => {
     dispatch(fetchNews(selectedCategory));
   }, [dispatch, selectedCategory]);
@@ -66,7 +68,9 @@ const MainLayout = () => {
         <Navbar
           active={activeCategory}
           setActive={setActiveCategory}
-          setSelectedCategory={setSelectedCategory}
+          setSelectedCategory={(category) => {
+            dispatch(setSelectedCategory(category));
+          }}
           setSearchValue={setSearchValue}
         />
       </div>
