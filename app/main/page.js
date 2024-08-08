@@ -4,7 +4,7 @@ import MainLayout from '@/components/MainPageComponents/Main'
 
 const Main = () => {
   return (
-    <div className=''>
+    <div className='w-full h-screen'>
       <MainLayout />
     </div>
   )

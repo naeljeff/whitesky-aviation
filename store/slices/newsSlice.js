@@ -12,7 +12,7 @@ export const fetchNews = createAsyncThunk(
   "news/fetchNews",
   async (category) => {
     const response = await fetchNewsData({ category });
-    console.log(`Response: ${response.articles}`);
+    // console.log(`Response: ${response.articles}`);
     return response.articles;
   }
 );

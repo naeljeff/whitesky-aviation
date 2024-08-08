@@ -47,8 +47,8 @@ const News = () => {
         </p>
       )}
       {status === "succeeded" && (
-        <div className="w-full min-h-[80dvh]">
-          <div id="scrollableDiv" className="h-[75dvh] overflow-auto">
+        <div className="flex-1">
+          <div id="scrollableDiv" className="h-[70dvh] overflow-auto lg:h-[75dvh]">
             <InfiniteScroll
               dataLength={memoArticles.length}
               next={fetchMoreData}
@@ -57,11 +57,11 @@ const News = () => {
               scrollableTarget="scrollableDiv"
               endMessage={
                 <p className="text-center">
-                  <b>Yay! You have seen it all</b>
+                  <b>You are out of articles...</b>
                 </p>
               }
             >
-              <ul className="grid grid-cols-1 gap-[25px] px-3 lg:grid-cols-3">
+              <ul className="my-3 grid grid-cols-1 gap-[25px] lg:grid-cols-3">
                 {memoArticles.map((article, index) => (
                   <NewsCard article={article} key={index} />
                 ))}
