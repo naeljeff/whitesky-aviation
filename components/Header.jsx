@@ -55,6 +55,7 @@ const Header = () => {
         break;
       case "Log Out":
         console.log("Log Out");
+        router.push("/");
         setProfileMenu(false);
         break;
       default:
@@ -72,7 +73,7 @@ const Header = () => {
         {/* If in profile page show home button */}
         {pathname === "/profile" && (
           <Link href={"/main"} className="font-semibold text-xl">
-            <BiHome size={26}/>
+            <BiHome size={26} />
           </Link>
         )}
 
