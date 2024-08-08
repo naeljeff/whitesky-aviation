@@ -84,7 +84,7 @@ const Navbar = ({ active, setActive, setSelectedCategory, setSearchValue }) => {
           ) : (
             <div className="container flex items-center justify-between px-9">
               <IconButton edge="start" aria-label="menu" onClick={openMenu}>
-                <button className="flex items-center gap-3 px-3 py-0.5 bg-black text-white rounded-full text-base font-normal capitalize tracking-normal">
+                <span className="flex items-center gap-3 px-3 py-0.5 bg-black text-white rounded-full text-base font-normal capitalize tracking-normal">
                   {newsList[active - 1].name}{" "}
                   <ChevronDownIcon
                     strokeWidth={2.5}
@@ -92,7 +92,7 @@ const Navbar = ({ active, setActive, setSelectedCategory, setSearchValue }) => {
                       isMenuOpen ? "rotate-180" : ""
                     }`}
                   />
-                </button>
+                </span>
               </IconButton>
 
               <Menu anchorEl={anchor} open={isMenuOpen} onClose={closeMenu}>

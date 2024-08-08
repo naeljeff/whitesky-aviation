@@ -54,7 +54,7 @@ const NewsCard = React.memo(({ article, index }) => {
             </Typography>
 
             {/* Published At and Author */}
-            <div className="flex justify-between items-center px-3 gap-1">
+            <div className="w-full flex justify-between items-center px-5 gap-1">
               <div className="flex-1 flex flex-col">
                 <p className="font-medium text-[16px]">
                   <span className="blue-text-gradient text-xl">@</span>{" "}

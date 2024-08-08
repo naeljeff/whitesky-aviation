@@ -16,6 +16,8 @@ import {
   Cog6ToothIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/solid";
+import Link from "next/link";
+import MyProfile from "./ProfilePage/MyProfile/MyProfile";
 
 const profileMenuList = [
   {
@@ -34,16 +36,32 @@ const profileMenuList = [
 
 const Header = () => {
   const [profileMenu, setProfileMenu] = useState(false);
+  const [showMyProfile, setShowMyProfile] = useState(false);
 
   const handleClickMenu = (label) => {
-    console.log(label);
+    // console.log(label);
+    switch (label) {
+      case "My Profile":
+        setShowMyProfile(true);
+        break;
+      case "Edit Profile":
+        setProfileMenu(false);
+        break;
+      case "Log Out":
+        console.log("LOOOGG OUT");
+        break;
+      default:
+        return;
+    }
     setProfileMenu(false);
   };
 
   return (
-    <div className="w-full bg-white flex flex-row justify-between items-center px-10 lg:px-36">
+    <div className="w-full h-16 bg-white flex flex-row justify-between items-center px-10 lg:px-36">
       {/* Logo */}
-      <h2 className="font-semibold text-xl">Whitesky Aviation</h2>
+      <Link href={"/main"} className="font-semibold text-xl">
+        Whitesky Aviation
+      </Link>
 
       {/* Profile Menu */}
       <Menu open={profileMenu} handler={setProfileMenu} placement="bottom-end">
@@ -86,19 +104,34 @@ const Header = () => {
                   strokeWidth: 2,
                 })}
 
-                <Typography
-                  as="h2"
-                  variant="small"
-                  className="font-normal"
-                  color={logOut ? "red" : "inherit"}
-                >
-                  {label}
-                </Typography>
+                {label === "Edit Profile" ? (
+                  <Link href={"/profile"} passHref>
+                    <Typography
+                      as="h2"
+                      variant="small"
+                      className="font-normal"
+                      color={logOut ? "red" : "inherit"}
+                    >
+                      {label}
+                    </Typography>
+                  </Link>
+                ) : (
+                  <Typography
+                    as="h2"
+                    variant="small"
+                    className="font-normal"
+                    color={logOut ? "red" : "inherit"}
+                  >
+                    {label}
+                  </Typography>
+                )}
               </MenuItem>
             );
           })}
         </MenuList>
       </Menu>
+
+      {showMyProfile && <MyProfile onClose={() => setShowMyProfile(false)} />}
     </div>
   );
 };

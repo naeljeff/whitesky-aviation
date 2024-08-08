@@ -29,7 +29,7 @@ const Home = () => {
         >
           {/* Image */}
           <div
-            className={`hidden relative overflow-hidden lg:py-3 lg:flex lg:h-full lg:w-1/2 ${
+            className={`hidden relative overflow-hidden lg:py-7 lg:flex lg:h-full lg:w-1/2 ${
               isLogin ? "order-1" : "order-2"
             }`}
           >
