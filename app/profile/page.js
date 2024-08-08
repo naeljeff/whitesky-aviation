@@ -1,9 +1,11 @@
+"use client";
 import React from 'react'
+import EditProfileLayout from '@/components/ProfilePage/EditProfile/EditProfileLayout';
 
 const Profile = () => {
   return (
-    <div>
-      profilepage
+    <div className="w-full h-screen">
+      <EditProfileLayout />
     </div>
   )
 }

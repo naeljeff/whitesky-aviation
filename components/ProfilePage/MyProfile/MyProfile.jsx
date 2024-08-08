@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 import React from "react";
 import Link from "next/link";
 
-const MyProfile = ({ onClose }) => {
+const MyProfile = ({ onClose}) => {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm"
@@ -17,7 +17,11 @@ const MyProfile = ({ onClose }) => {
           <div className="w-full">
             <div className="w-full flex justify-end items-center p-2 text-xl font-semibold text-blue-gray-900 lg:p-4 lg:text-2xl">
               <p className="w-full text-center -mr-7">My Profile</p>
-              <Link href={"/profile"} className="rounded-full border border-black p-1 mr-2 transition-all duration-300 ease-in-out hover:bg-blue-500/20 hover:border-blue-700">
+              <Link
+                href={"/profile"}
+                onClick={onClose}
+                className="rounded-full border border-black p-1 mr-2 transition-all duration-300 ease-in-out hover:bg-blue-500/20 hover:border-blue-700"
+              >
                 <CiEdit />
               </Link>
             </div>
