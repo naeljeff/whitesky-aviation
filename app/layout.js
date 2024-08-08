@@ -1,5 +1,7 @@
 import { JetBrains_Mono } from "next/font/google";
-import "@/styles/style.css"
+
+import StoreProvider from "./StoreProvider";
+import "@/styles/style.css";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -16,7 +18,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={jetbrainsMono.className}>
-        {children}
+        {/* <Provider store={store}>{children}</Provider> */}
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );
