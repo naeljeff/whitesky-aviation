@@ -12,13 +12,11 @@ const DetailLayout = ({ article, category }) => {
   if (!article) return <p>Article not found</p>;
 
   return (
-    <div className="w-full h-full flex flex-col justify-between items-center bg-[#f8fafc]">
-      <div className="w-full flex flex-col justify-start items-start">
-        <Header />
-      </div>
+    <div className="w-full min-h-screen flex flex-col bg-[#f8fafc]">
+      <Header />
 
       {/* Detail News Display */}
-      <div className="container h-full w-full flex flex-col justify-start items-start lg:w-3/4">
+      <div className="container flex-1 w-full flex flex-col justify-start items-start lg:w-3/4">
         <Link
           href={"/main"}
           className="flex flex-row space-x-3 justify-center items-center m-4 cursor-pointer"

@@ -19,6 +19,8 @@ import {
 import { BiHome } from "react-icons/bi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { userLogout } from "@/store/slices/userSlice";
 
 import MyProfile from "./ProfilePage/MyProfile/MyProfile";
 
@@ -43,8 +45,9 @@ const Header = () => {
 
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch(); 
 
-  const handleClickMenu = (label) => {
+  const handleClickMenu = async(label) => {
     switch (label) {
       case "My Profile":
         setShowMyProfile(true);
@@ -55,6 +58,8 @@ const Header = () => {
         break;
       case "Log Out":
         console.log("Log Out");
+        await dispatch(userLogout()).unwrap();
+        router.push("/");
         setProfileMenu(false);
         break;
       default:
@@ -72,7 +77,7 @@ const Header = () => {
         {/* If in profile page show home button */}
         {pathname === "/profile" && (
           <Link href={"/main"} className="font-semibold text-xl">
-            <BiHome size={26}/>
+            <BiHome size={26} />
           </Link>
         )}
 

@@ -1,16 +1,38 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Avatar, Input, Alert } from "@material-tailwind/react";
-
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  deleteUserById,
+  selectUser,
+  selectUserError,
+  selectUserStatus,
+  updateUserById,
+} from "@/store/slices/userSlice";
+import {
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 
 const EditProfileLayout = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("+62 - 123123123");
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const userStatus = useSelector(selectUserStatus);
+  const userError = useSelector(selectUserError);
+  const router = useRouter();
+
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [phoneNumber, setPhoneNumber] = useState(user?.phone_number || "");
+  const [password, setPassword] = useState("");
+  const userId = user?.user_id;
   const [successAlert, setSuccessAlert] = useState(false);
   const [failedAlert, setFailedAlert] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePhoneNumberInput = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -20,26 +42,53 @@ const EditProfileLayout = () => {
     setPhoneNumber(`+62 - ${withoutPrefix}`);
   };
 
-  const handleSaveEdit = (e) => {
+  const handleSaveEdit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-
     // Check if all fields are filled
-    if (!name ||!email ||!phoneNumber ||!password) {
+    if (!name || !email || !phoneNumber || !password) {
       setFailedAlert(true);
       return;
     }
-    setSuccessAlert(true);
-  }
+
+    try {
+      await dispatch(
+        updateUserById({ name, email, phoneNumber, password, userId: userId })
+      ).unwrap();
+      setSuccessAlert(true);
+    } catch (err) {
+      console.log(err);
+      setFailedAlert(true);
+    }
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleConfirmDelete = async () => {
+    if (!userId) {
+      console.error("User ID not found");
+      return;
+    }
+
+    try {
+      // Delete the user
+      await dispatch(deleteUserById(userId)).unwrap();
+      alert("User deleted successfully");
+      router.push("/");
+    } catch (err) {
+      console.error("Error during user deletion", err);
+    }
+
+    closeModal();
+  };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between items-center bg-[#f8fafc]">
-      <div className="w-full flex flex-col justify-start items-start">
-        <Header />
-      </div>
+    <div className="flex flex-col min-h-screen bg-[#f8fafc]">
+      <Header />
 
-      {/* Display Profile */}
-      <div className="container h-full w-full flex flex-col justify-start items-start lg:w-3/4">
+      {/* Main Content */}
+      <main className="flex-grow container mx-auto lg:w-3/4 p-4">
         <div className="w-full h-full bg-white rounded-2xl shadow-xl pt-2 lg:pt-5 my-3">
           <div className="h-full w-full flex flex-col items-center justify-between">
             <div className="w-full">
@@ -85,6 +134,8 @@ const EditProfileLayout = () => {
                       placeholder="Enter your email"
                       type="email"
                       value={email}
+                      disabled
+                      readOnly
                       className="text-xl text-black font-bold px-1 lg:text-2xl"
                       onChange={(e) => setEmail(e.target.value)}
                       error={email ? false : true}
@@ -126,14 +177,47 @@ const EditProfileLayout = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center p-4">
-              <button onClick={handleSaveEdit} className="px-6 py-3 text-xs font-bold uppercase text-white bg-gradient-to-tr from-green-600 to-green-400 rounded-lg shadow-md transition-all hover:shadow-lg active:opacity-85">
-                Save
+            <div className="flex flex-row items-center justify-center space-x-5 p-4">
+              <button
+                onClick={handleSaveEdit}
+                className="px-6 py-3 text-xs font-bold uppercase text-white bg-gradient-to-tr from-green-600 to-green-400 rounded-lg shadow-md transition-all hover:shadow-lg active:opacity-85"
+              >
+                {userStatus === "loading" ? "Saving..." : "Save"}
+              </button>
+
+              {/* to delete */}
+              <button
+                onClick={openModal}
+                className="px-6 py-3 text-xs font-bold uppercase text-red-500 bg-red-500/10 rounded-lg shadow-md transition-all hover:bg-red-500/30 active:bg-red-500/30"
+              >
+                Delete
               </button>
             </div>
           </div>
         </div>
-      </div>
+
+        <Dialog open={isModalOpen} handler={closeModal}>
+          <DialogHeader>Confirm User Deletion</DialogHeader>
+          <DialogBody>
+            Are you sure you want to delete your profile? This action cannot be
+            undone.
+          </DialogBody>
+          <DialogFooter className="flex flex-row space-x-4">
+            <button
+              className="px-6 py-3 text-xs font-bold uppercase text-red-500 bg-red-500/10 transition-all rounded-lg hover:bg-red-500/30 active:bg-red-500/30"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
+            <button
+              className="px-6 py-3 text-xs font-bold uppercase text-white bg-gradient-to-tr from-green-600 to-green-400 rounded-lg shadow-md transition-all hover:shadow-lg active:opacity-85"
+              onClick={handleConfirmDelete}
+            >
+              Confirm
+            </button>
+          </DialogFooter>
+        </Dialog>
+      </main>
 
       {successAlert && (
         <Alert
@@ -145,7 +229,7 @@ const EditProfileLayout = () => {
             unmount: { y: 100 },
           }}
         >
-          You have editted your profile successfully!
+          You have edited your profile successfully!
         </Alert>
       )}
 

@@ -9,6 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const DetailNews = ({ article, category }) => {
   const websiteUrl = article.url;
   const website = websiteUrl.split("https://").pop().split("/")[0];
+  const cleanedContent = article.content.replace(/\s*\[\+\d+ chars\]/, '');
 
   return (
     <div className="w-full h-full bg-white rounded-2xl shadow-xl p-5 mb-2">
@@ -62,21 +63,23 @@ const DetailNews = ({ article, category }) => {
         </div>
 
         {/* Content */}
-        <p>{article.content}</p>
+        <p>{cleanedContent}</p>
 
         {/* Full Link */}
-        <p className="tracking-tight">
-          Read full article{" "}
-          <strong>
-            <Link
-              href={article.url}
-              target="_blank"
-              className="text-blue-500 text-lg"
-            >
-              {article.url}
-            </Link>
-          </strong>
-        </p>
+        <div className="mt-4">
+          <p className="tracking-tight">
+            Read full article{" "}
+            <strong>
+              <Link
+                href={article.url}
+                target="_blank"
+                className="text-blue-500 text-lg break-all"
+              >
+                {article.url}
+              </Link>
+            </strong>
+          </p>
+        </div>
       </div>
     </div>
   );
