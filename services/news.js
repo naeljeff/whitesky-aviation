@@ -6,7 +6,7 @@ export const fetchNewsData = async ({ category }) => {
   const apiURL = `https://newsapi.org/v2/everything?q=${category}&apiKey=${NEWS_KEY}`;
 
   try {
-    const { data } = await axios.get(apiURL);
+    const { data } = await axios.get(apiURL, { timeout: 10000 });
     return data;
   } catch (error) {
     console.log(`Error fetching news data: ${error.message}`);
