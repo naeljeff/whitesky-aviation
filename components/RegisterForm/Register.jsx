@@ -5,6 +5,9 @@ import { Input } from "@material-tailwind/react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { TfiWrite } from "react-icons/tfi";
 import { Button } from "@material-tailwind/react";
+import { useSelector, useDispatch } from "react-redux";
+import { createNewUser } from "@/store/slices/userSlice";
+import { selectUserStatus, selectUserError } from "@/store/slices/userSlice";
 
 const Register = ({ onComponentSwap, onSuccessRegis }) => {
   const [email, setEmail] = useState("");
@@ -12,6 +15,10 @@ const Register = ({ onComponentSwap, onSuccessRegis }) => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const dispatch = useDispatch();
+  const userStatus = useSelector(selectUserStatus);
+  const userError = useSelector(selectUserError);
 
   const handlePhoneNumberInput = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -21,11 +28,24 @@ const Register = ({ onComponentSwap, onSuccessRegis }) => {
     setPhoneNumber(`+62 - ${withoutPrefix}`);
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (true) {
-      onSuccessRegis();
+    if (email && password && name && phoneNumber) {
+      try {
+        console.log(email, password, name, phoneNumber);
+        await dispatch(
+          createNewUser({ name, email, phoneNumber, password })
+        ).unwrap();
+        onSuccessRegis();
+        alert("User has been registered");
+      } catch (error) {
+        alert(`Registration failed: ${error}`);
+        console.error("Registration failed:", error);
+      }
+    } else {
+      alert("Please fill in all required fields");
+      return;
     }
   };
   return (
@@ -109,7 +129,7 @@ const Register = ({ onComponentSwap, onSuccessRegis }) => {
           color="red"
           className="w-full relative flex items-center justify-center gap-3 overflow-hidden pl-[72px]"
         >
-          Register
+          {userStatus === "loading" ? "Registering..." : "Register"}
           <span className="absolute left-0 grid h-full w-12 place-items-center bg-red-700 transition-colors group-hover:bg-red-800">
             <TfiWrite size={22} />
           </span>

@@ -6,11 +6,40 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { Button } from "@material-tailwind/react";
 import Link from "next/link";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+
+import { userLogin } from "@/store/slices/userSlice";
+import { selectUserStatus, selectUserError } from "@/store/slices/userSlice";
 
 const Login = ({ onComponentSwap }) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const dispatch = useDispatch();
+  const userStatus = useSelector(selectUserStatus);
+  const userError = useSelector(selectUserError);
+  const router = useRouter();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (email && password) {
+      console.log(email, password)
+      try {
+        await dispatch(userLogin({ email, password })).unwrap();
+        router.push("/main");
+        alert("Login successful");
+      } catch (error) {
+        console.log(`Error: ${error}`);
+        alert("Login failed");
+      }
+    } else {
+      alert("Please fill in all required fields");
+      return;
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center space-y-3">
@@ -57,19 +86,25 @@ const Login = ({ onComponentSwap }) => {
           </button>
         </div>
 
-        <Link href={'/main'} className="p-3 m-3">
-          <Button
-            size="lg"
-            variant="gradient"
-            color="light-blue"
-            className="w-full relative flex items-center justify-center gap-3 overflow-hidden pr-[72px]"
-          >
-            Login
-            <span className="absolute right-0 grid h-full w-12 place-items-center bg-light-blue-600 transition-colors group-hover:bg-light-blue-700">
-              <MdLogin size={24} />
-            </span>
-          </Button>
-        </Link>
+        <Button
+          onClick={handleLogin}
+          size="lg"
+          variant="gradient"
+          color="light-blue"
+          className="w-full relative flex items-center justify-center gap-3 overflow-hidden pr-[72px]"
+        >
+          {userStatus === "loading" ? "Logging in..." : "Login"}
+          <span className="absolute right-0 grid h-full w-12 place-items-center bg-light-blue-600 transition-colors group-hover:bg-light-blue-700">
+            <MdLogin size={24} />
+          </span>
+        </Button>
+
+        {/* Error Message */}
+        {userError && (
+          <p className="text-red-500 mt-2">
+            {userError || "Login failed, please try again."}
+          </p>
+        )}
       </div>
 
       <p className="text-black pt-3">
